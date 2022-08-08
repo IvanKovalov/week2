@@ -12,7 +12,7 @@ import java.util.Properties;
  * Hello world!
  *
  */
-// hello
+// hello ivan
 public class App 
 {
     static double generalIncrement = 0;

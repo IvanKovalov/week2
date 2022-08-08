@@ -4,18 +4,12 @@ import org.junit.Rule;
 
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.jupiter.api.*;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+
 
 /**
  * Unit test for simple App.
@@ -40,7 +34,6 @@ import static org.mockito.Mockito.verify;
         System.out.println("@BeforeAll executed");
     }
 
-
     @Test
     void testGetInfo()
     {
@@ -52,13 +45,12 @@ import static org.mockito.Mockito.verify;
         assertEquals( 3.8 , App.generalIncrement);
 
     }
-
     @Test
     void testCreateDouble()
     {
         double[][] arrayToCompare = {{0.0, 0.0},{ 1.0, 4.8},{2.0, 9.6},{3.0, 14.399999999999999},{4.0, 19.2},{5.0, 24.0},{6.0, 28.799999999999997},{7.0, 33.6},{8.0, 38.4}, { 9.0, 43.199999999999996}};
         System.out.println("======TEST createDoubleTable EXECUTED=======");
-        assertEquals( Arrays.deepToString(arrayToCompare) , Arrays.deepToString(App.createTableDouble(3.8,1,6)));
+        assertArrayEquals( arrayToCompare , App.createTableDouble(3.8,1,6));
     }
 
     @Test
@@ -67,7 +59,7 @@ import static org.mockito.Mockito.verify;
 
         int[][] arrayToCompare = {{0, 0},{ 1, 4},{2, 8},{3, 12},{4, 16},{5, 20},{6, 24},{7, 28},{8, 32}, { 9, 36}};
         System.out.println("======TEST createIntTable EXECUTED=======");
-        assertEquals( Arrays.deepToString(arrayToCompare) , Arrays.deepToString(App.createTableInt(3,1,6)));
+        assertArrayEquals( arrayToCompare ,App.createTableInt(3,1,6));
     }
 
 

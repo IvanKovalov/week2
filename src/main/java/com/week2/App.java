@@ -26,22 +26,7 @@ public class App
 
         getInfo();
 
-        if(args[0].equals("int")){
-            int[][] intArray = createTableInt((int)generalIncrement, (int)generalMin,(int)generalMax);
-            String outString = out(intArray);
-            System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, "int"));
-            System.out.print(outString);
-       } else if (args[0].equals(typeDouble)) {
-            double[][]doubleArray = createTableDouble(generalIncrement,generalMin,generalMax);
-            String outString = outDouble(doubleArray);
-            System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, typeDouble));
-            System.out.print(outString);
-        }else if (args[0].equals(typeFloat)) {
-            float[][] floatArray = createTableFloat((float) generalIncrement, (float) generalMin, (float) generalMax);
-            String outString = outFloat(floatArray);
-            System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, typeFloat));
-            System.out.print(outString);
-        }
+        createTable(args[0]);
 
 
     }
@@ -178,5 +163,24 @@ public class App
         generalMin = Double.parseDouble(prop.getProperty("min"));
         generalMax = Double.parseDouble(prop.getProperty("max"));
 
+    }
+
+    static void createTable (String arg){
+        if(arg.equals("int")){
+            int[][] intArray = createTableInt((int)generalIncrement, (int)generalMin,(int)generalMax);
+            String outString = out(intArray);
+            System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, "int"));
+            System.out.print(outString);
+        } else if (arg.equals(typeDouble)) {
+            double[][]doubleArray = createTableDouble(generalIncrement,generalMin,generalMax);
+            String outString = outDouble(doubleArray);
+            System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, typeDouble));
+            System.out.print(outString);
+        }else if (arg.equals(typeFloat)) {
+            float[][] floatArray = createTableFloat((float) generalIncrement, (float) generalMin, (float) generalMax);
+            String outString = outFloat(floatArray);
+            System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, typeFloat));
+            System.out.print(outString);
+        }
     }
 }

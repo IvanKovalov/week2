@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     {
 
         System.out.println("======TEST GetInfo EXECUTED=======");
-        App.getInfo("src/main/resources/testConfig.properties");
+        App.getInfo("src/test/resources/testConf.properties");
         assertEquals( 1 , App.generalMin);
         assertEquals( 6 , App.generalMax);
         assertEquals( 3.8 , App.generalIncrement);

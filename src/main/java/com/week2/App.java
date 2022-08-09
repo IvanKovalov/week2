@@ -21,11 +21,14 @@ public class App
     static String typeFloat = "float";
     static String typeDouble = "double";
 
+    static String PATH = System.getProperty("user.dir") + "/config.properties";
+
+    static Multiply multiply = new Multiply();
 
     public static void main( String[] args )
     {
 
-        getInfo();
+        getInfo(PATH);
 
         createTable(args[0]);
 
@@ -40,7 +43,7 @@ public class App
         for (int i = 0; i < 10; i += 1){
             int column = 0;
             for (int j = min; j < max; j += increment){
-                tableInt [i][column] = i*j;
+                tableInt [i][column] = multiply.multiplyInt(i,j);
                 column ++;
 
             }
@@ -58,7 +61,7 @@ public class App
             int column = 0;
             for (double j = min; j < max; j += increment){
                 double multiplier = i;
-                tableDouble [i][column] = multiplier*j;
+                tableDouble [i][column] = multiply.multipleDouble(multiplier,j);
                 column ++;
             }
         }
@@ -76,7 +79,7 @@ public class App
             int column = 0;
             for (float j = min; j < max; j += increment){
                 float multiplier = i;
-                tableFloat[i][column] = multiplier*j;
+                tableFloat[i][column] = multiply.multiplyFloat(multiplier,j);
                 column ++;
             }
         }
@@ -152,10 +155,10 @@ public class App
         return  stringForReturt;
     }
 
-    static void getInfo () {
+    static void getInfo (String path) {
 
         Properties prop = new Properties();
-        try(InputStreamReader isr = new InputStreamReader(new FileInputStream(System.getProperty("user.dir") + "/config.properties"), StandardCharsets.UTF_8)) {
+        try(InputStreamReader isr = new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8)) {
             prop.load(isr);
         } catch (IOException e) {
             throw new RuntimeException("My message");

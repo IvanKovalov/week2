@@ -8,6 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Hello world!
  *
@@ -15,6 +18,7 @@ import java.util.Properties;
 // hello ivan 1
 public class App 
 {
+   // final static Logger logger = LoggerFactory.getLogger(App.class);
     static double generalIncrement = 0;
     static double generalMin = 0;
     static double generalMax = 0;
@@ -28,10 +32,10 @@ public class App
     public static void main( String[] args )
     {
 
+        //logger.info("called GetInfo() method");
         getInfo(PATH);
-
+        //logger.info("called createTable() method");
         createTable(args[0]);
-
 
     }
 
@@ -99,6 +103,8 @@ public class App
             }
             outResult = outResult + " \n";
         }
+        //logger.info("print int table");
+        //logger.info(outResult);
         return outResult;
     }
 
@@ -114,6 +120,8 @@ public class App
             }
             outResult = outResult + " \n";
         }
+        //logger.info("print double table");
+        //logger.info(outResult);
         return outResult;
     }
 
@@ -129,6 +137,8 @@ public class App
             }
             outResult = outResult + " \n";
         }
+        //logger.info("print float table");
+        //logger.info(outResult);
         return outResult;
 
     }
@@ -152,6 +162,8 @@ public class App
         }
         stringForReturt = stringForReturt + "\n";
 
+        //logger.info("print first row for table");
+
         return  stringForReturt;
     }
 
@@ -163,6 +175,7 @@ public class App
         } catch (IOException e) {
             throw new RuntimeException("My message");
         }
+       // logger.info("Get info from property file");
         generalIncrement = Double.parseDouble(prop.getProperty("increment"));
         generalMin = Double.parseDouble(prop.getProperty("min"));
         generalMax = Double.parseDouble(prop.getProperty("max"));
@@ -175,16 +188,19 @@ public class App
             String outString = out(intArray);
             System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, "int"));
             System.out.print(outString);
+           // logger.info("Create int table");
         } else if (arg.equals(typeDouble)) {
             double[][]doubleArray = createTableDouble(generalIncrement,generalMin,generalMax);
             String outString = outDouble(doubleArray);
             System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, typeDouble));
             System.out.print(outString);
+            //logger.info("Create double table");
         }else if (arg.equals(typeFloat)) {
             float[][] floatArray = createTableFloat((float) generalIncrement, (float) generalMin, (float) generalMax);
             String outString = outFloat(floatArray);
             System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, typeFloat));
             System.out.print(outString);
+            //logger.info("Create float table");
         }
     }
 }

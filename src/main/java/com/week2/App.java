@@ -8,8 +8,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  * Hello world!
@@ -18,23 +22,38 @@ import org.slf4j.LoggerFactory;
 // hello ivan 1
 public class App 
 {
-   // final static Logger logger = LoggerFactory.getLogger(App.class);
+    static final Logger logger = Logger.getLogger(App.class.getName());
     static double generalIncrement = 0;
     static double generalMin = 0;
     static double generalMax = 0;
     static String typeFloat = "float";
     static String typeDouble = "double";
 
-    static String PATH = System.getProperty("user.dir") + "/config.properties";
+    static String path = System.getProperty("user.dir") + "/config.properties";
 
     static Multiply multiply = new Multiply();
 
+    static Handler consoleHandler = null;
+    static Handler fileHandler  = null;
+
     public static void main( String[] args )
     {
+        try{
+            //Creating consoleHandler and fileHandler
+            consoleHandler = new ConsoleHandler();
+            fileHandler  = new FileHandler("./javacodegeeks.log");
+            //Assigning handlers to LOGGER object
+            logger.addHandler(consoleHandler);
+            logger.addHandler(fileHandler);
+            //Setting levels to handlers and LOGGER
+            logger.removeHandler(consoleHandler);
+        }catch(IOException exception){
+            logger.log(Level.SEVERE, "Error occur in FileHandler.", exception);
+        }
 
-        //logger.info("called GetInfo() method");
-        getInfo(PATH);
-        //logger.info("called createTable() method");
+        logger.info("called GetInfo() method");
+        getInfo(path);
+        logger.info("called createTable() method");
         createTable(args[0]);
 
     }
@@ -92,79 +111,78 @@ public class App
     }
 
     static String out (int[][] array){
-        String outResult = "";
+        StringBuilder outResult = new StringBuilder("");
 
         int amountOfColumn = (int)generalMax/(int)generalIncrement;
 
         for (int i = 0; i < 10; i += 1){
-            outResult = outResult + i + " ";
-            for (int j = 0; j < amountOfColumn; j += 1){
-                outResult = outResult + array[i][j]+ " ";
+            outResult.append(i + " ");
+            for (int j = 0; j < amountOfColumn; j += 1) {
+                outResult.append(array[i][j] + " ");
             }
-            outResult = outResult + " \n";
+            outResult.append(" \n");
         }
-        //logger.info("print int table");
-        //logger.info(outResult);
-        return outResult;
+        logger.info("print int table");
+
+        return outResult.toString();
     }
 
     static String outDouble (double[][] array){
-        String outResult = "";
+        StringBuilder outResult = new StringBuilder("");
 
         int amountOfColumn = (int)generalMax/(int)generalIncrement;
 
         for (int i = 0; i < 10; i += 1){
-            outResult = outResult + i + " ";
+            outResult.append(i + " ");
             for (int j = 0; j < amountOfColumn; j += 1){
-                outResult = outResult + array[i][j]+ " ";
+                outResult.append(array[i][j]+ " ");
             }
-            outResult = outResult + " \n";
+            outResult.append(" \n");
         }
-        //logger.info("print double table");
-        //logger.info(outResult);
-        return outResult;
+        logger.info("print double table");
+        return outResult.toString();
     }
 
     static String outFloat (float[][] array){
-        String outResult = "";
+        StringBuilder outResult = new StringBuilder("");
 
         int amountOfColumn = (int)generalMax/(int)generalIncrement;
 
         for (int i = 0; i < 10; i += 1){
-            outResult = outResult + i + " ";
+            outResult.append(i + " ");
             for (int j = 0; j < amountOfColumn; j += 1){
-                outResult = outResult + array[i][j]+ " ";
+                outResult.append(array[i][j]+ " ");
             }
-            outResult = outResult + " \n";
+            outResult.append(" \n");
         }
-        //logger.info("print float table");
-        //logger.info(outResult);
-        return outResult;
+        logger.info("print float table");
+
+        return outResult.toString();
 
     }
 
     static String printFirstRow(double increment, double min, int max, String format){
-        String stringForReturt = " ";
+        StringBuilder outResult = new StringBuilder(" ");
 
         for (int i = 0; i < max/increment; i++){
             if (Objects.equals(format, "int")){
 
-                stringForReturt = stringForReturt + (int)min + " ";
+                outResult.append((int)min + " ");
             } else if (Objects.equals(format, typeDouble)) {
 
-                stringForReturt = stringForReturt + min + " ";
+                outResult.append(min + " ");
             } else if (Objects.equals(format, typeFloat)) {
 
-                stringForReturt = stringForReturt + min + " ";
+                outResult.append(min + " ");
             }
 
             min += increment;
         }
-        stringForReturt = stringForReturt + "\n";
 
-        //logger.info("print first row for table");
+        outResult.append("\n");
+        logger.info("print first row for table");
 
-        return  stringForReturt;
+        return  outResult.toString();
     }
 
     static void getInfo (String path) {
@@ -175,7 +193,7 @@ public class App
         } catch (IOException e) {
             throw new RuntimeException("My message");
         }
-       // logger.info("Get info from property file");
+        logger.info("Get info from property file");
         generalIncrement = Double.parseDouble(prop.getProperty("increment"));
         generalMin = Double.parseDouble(prop.getProperty("min"));
         generalMax = Double.parseDouble(prop.getProperty("max"));
@@ -185,22 +203,22 @@ public class App
     static void createTable (String arg){
         if(arg.equals("int")){
             int[][] intArray = createTableInt((int)generalIncrement, (int)generalMin,(int)generalMax);
-            String outString = out(intArray);
-            System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, "int"));
-            System.out.print(outString);
-           // logger.info("Create int table");
+            logger.info("Create int table");
+            StringBuilder sb = new StringBuilder("\n" + printFirstRow(generalIncrement,generalMin,(int)generalMax, "int") + out(intArray));
+            logger.log(Level.INFO,"{0}", sb);
+
         } else if (arg.equals(typeDouble)) {
             double[][]doubleArray = createTableDouble(generalIncrement,generalMin,generalMax);
-            String outString = outDouble(doubleArray);
-            System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, typeDouble));
-            System.out.print(outString);
-            //logger.info("Create double table");
+            logger.info("Create double table");
+            StringBuilder sb = new StringBuilder("\n" + printFirstRow(generalIncrement,generalMin,(int)generalMax, typeDouble) + outDouble(doubleArray));
+            logger.log(Level.INFO,"{0}", sb);
+
         }else if (arg.equals(typeFloat)) {
             float[][] floatArray = createTableFloat((float) generalIncrement, (float) generalMin, (float) generalMax);
-            String outString = outFloat(floatArray);
-            System.out.print(printFirstRow(generalIncrement,generalMin,(int)generalMax, typeFloat));
-            System.out.print(outString);
-            //logger.info("Create float table");
+            logger.info("Create float table");
+            StringBuilder sb = new StringBuilder("\n " + printFirstRow(generalIncrement,generalMin,(int)generalMax, typeFloat) + outFloat(floatArray));
+            logger.log(Level.INFO,"{0}", sb);
+
         }
     }
 }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class MultiplyTest {
+ class MultiplyTest {
     static Multiply multiply = new Multiply();
     @Test
     void testMultiplyInt()
